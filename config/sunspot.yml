@@ -1,4 +1,5 @@
 production:
+  disable_solr: true
   solr:
     hostname: localhost
     port: 8983
@@ -17,5 +18,3 @@ test:
     hostname: localhost
     port: 8981
     log_level: WARNING
-disabled:
-  disable_solr: true
