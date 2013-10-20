@@ -146,6 +146,6 @@ module ApplicationHelper
   end
 
   def layouts
-    YAML.load(ENV["LAYOUTS"]) || ["application"]
+    YAML.load(ENV["LAYOUTS"] || "") || ["application"]
   end
 end
