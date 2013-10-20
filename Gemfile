@@ -61,6 +61,7 @@ gem 'kaminari'
 gem "bootstrap-switch-rails"
 gem 'sequel'
 gem 'mysql'
+gem "pg"
 gem 'googlebooks'
 gem 'sunspot_rails'
 gem 'sunspot_solr'

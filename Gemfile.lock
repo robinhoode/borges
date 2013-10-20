@@ -139,6 +139,7 @@ GEM
     nokogiri (1.5.9)
     nori (2.2.0)
     orm_adapter (0.4.0)
+    pg (0.17.0)
     polyglot (0.3.3)
     pr_geohash (1.0.0)
     quiet_assets (1.0.2)
@@ -267,6 +268,7 @@ DEPENDENCIES
   mysql
   mysql2
   nested_form
+  pg
   quiet_assets (>= 1.0.2)
   rails (= 3.2.13)
   rails3-jquery-autocomplete
