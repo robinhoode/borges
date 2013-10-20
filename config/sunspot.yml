@@ -1,5 +1,5 @@
 production:
-  disable_solr: true
+  disabled: true
   solr:
     hostname: localhost
     port: 8983
