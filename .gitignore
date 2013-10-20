@@ -85,4 +85,3 @@ pickle-email-*.html
 /solr/data
 /solr/pids
 .ruby-version
-production_push.sh
