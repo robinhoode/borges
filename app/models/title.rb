@@ -5,14 +5,14 @@ class Title < ActiveRecord::Base
     text :title,:introduction,:description
     text :authors do
       authors.map { |a| a.full_name }
-    end  
+    end
     text :publisher do
       editions.map { |e| e.publisher }
-    end  
+    end
     text :distributor do
       copies.map { |c| c.invoice_line_item.invoice.distributor unless c.invoice_line_item.nil? }
-    end  
-    
+    end
+
     text :isbn do
       editions.map {|e| "#{e.isbn13} #{e.isbn10}"}
     end
@@ -21,29 +21,27 @@ class Title < ActiveRecord::Base
       copies.where(status: "SOLD").length
     end
 
-    integer :copies_in_stock do  
+    integer :copies_in_stock do
       copies.where(status: "STOCK").length
     end
-
-
   end
 
   has_many :contributions
   has_many :authors, :through => :contributions
-  has_many :editions 
+  has_many :editions
   has_many :copies, :through => :editions
   has_many :purchase_order_line_items, :through => :editions
   has_many :title_lists,:through => :title_list_memberships
   has_many :title_list_memberships
   has_many :post_title_links
-  has_many :posts, :through => :post_title_links 
+  has_many :posts, :through => :post_title_links
   has_many :title_category_memberships
   has_many :categories,:through => :title_category_memberships
- 
+
   accepts_nested_attributes_for :contributions, :allow_destroy => true
   accepts_nested_attributes_for :editions, :allow_destroy => true
-  accepts_nested_attributes_for :title_list_memberships, :allow_destroy => true    
-  accepts_nested_attributes_for :title_category_memberships, :allow_destroy => true    
+  accepts_nested_attributes_for :title_list_memberships, :allow_destroy => true
+  accepts_nested_attributes_for :title_category_memberships, :allow_destroy => true
 
   def to_s
     title
@@ -65,16 +63,16 @@ class Title < ActiveRecord::Base
     editions.published.newest_first.first || latest_edition
   end
 
-  def by_the_same_authors 
+  def by_the_same_authors
     authors.collect {|a| a.titles}.flatten.find_all {|t| t.id != self.id}.uniq.sort_by {|x| x.title}
   end
 
   [:authors, :publisher, :distributor,:copies_sold_or_more,:copies_sold_or_less,:copies_stock_or_more,:copies_stock_or_less].each do |attr|
-  define_method("my_#{attr}") do
+    define_method("my_#{attr}") do
       ""
     end
   end
-  
+
 
   def in_stock
     copies.find_all {|c| c.status=="STOCK"}.length
@@ -84,16 +82,16 @@ class Title < ActiveRecord::Base
     copies.find_all {|c| c.status=="SOLD"}.length
   end
 
-  def on_order 
-    purchase_order_line_items.inject(0) do |sum,li| 
-      if li.purchase_order.ordered? 
+  def on_order
+    purchase_order_line_items.inject(0) do |sum,li|
+      if li.purchase_order.ordered?
         sum+li.quantity-li.received
-      else 
+      else
         sum
       end
-    end 
+    end
 
   end
-  
+
 
 end
